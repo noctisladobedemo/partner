@@ -1,0 +1,417 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Partner Giving</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&display=swap">
+<style>
+/* Layout: full-bleed black welcome/thank-you stages; light/dark stepped flow with a red thread on the left edge.
+   Brand: black, white, Adobe red. Adobe Clean is not licensed for partners, so Archivo stands in. */
+:root {
+  --bg: #FFFFFF; --fg: #0B0B0B; --muted: #5C5C5C; --line: #D9D9D9; --field: #F2F2F2; --card: #FFFFFF;
+  --red: #EB1000; --red-hover: #C20D00; --on-red: #FFFFFF; --err: #B80D00; --err-bg: #FFF0EE; --focus: #3A63F9;
+  --selected-bg: #FFF5F4; --ink-btn: #0B0B0B; --on-ink: #FFFFFF;
+  --font: "Archivo", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0E0E0E; --fg: #F5F5F5; --muted: #A8A8A8; --line: #333; --field: #1C1C1C; --card: #161616;
+  --err: #FF7A6E; --err-bg: #2A1311; --focus: #8CA2FF; --selected-bg: #241513; --ink-btn: #F5F5F5; --on-ink: #0B0B0B; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0E0E0E; --fg: #F5F5F5; --muted: #A8A8A8; --line: #333; --field: #1C1C1C; --card: #161616;
+  --err: #FF7A6E; --err-bg: #2A1311; --focus: #8CA2FF; --selected-bg: #241513; --ink-btn: #F5F5F5; --on-ink: #0B0B0B; color-scheme: dark; }
+/* welcome + thank-you always render on black */
+body.stage-dark { --bg: #000; --fg: #fff; --muted: #CFCFCF; --line: #3a3a3a; --ink-btn: #fff; --on-ink: #000; --err: #FF7A6E; --err-bg: #2A1311; --focus: #8CA2FF; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 17px; line-height: 1.55; min-height: 100vh;
+  padding-block: 0; padding-left: max(28px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); transition: background .5s, color .5s; }
+.thread { position: fixed; inset: 0 auto 0 0; width: 8px; background: var(--red); z-index: 5; }
+.wrap { max-width: 1020px; margin: 0 auto; padding-left: clamp(0px, 3vw, 24px); }
+header { padding-top: 28px; display: flex; justify-content: space-between; align-items: center; min-height: 60px; }
+.brand span { display: inline-block; font-weight: 900; letter-spacing: .01em; color: var(--red); border: 1px dashed currentColor; padding: 2px 9px; border-radius: 4px; font-size: 15px; }
+.theme-note { font-size: 12px; color: var(--muted); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
+main:focus, h1:focus, h2:focus { outline: none; }
+
+nav.progress { padding-top: 22px; }
+.progress .count { font-size: 14px; color: var(--muted); margin: 0 0 10px; }
+.progress ol { list-style: none; display: flex; gap: 8px; margin: 0; padding: 0; }
+.progress li { flex: 1; min-width: 0; }
+.progress .bar { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
+.progress .bar::after { content: ""; display: block; height: 100%; width: 0; background: var(--red); transition: width .5s; }
+.progress li.done .bar::after, .progress li.current .bar::after { width: 100%; }
+.progress .lbl { display: block; margin-top: 8px; font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.progress li.current .lbl { color: var(--fg); font-weight: 700; }
+.progress button.lbl { background: none; border: 0; padding: 0; font: inherit; font-size: 13px; cursor: pointer; text-decoration: underline; max-width: 100%; }
+@media (max-width: 560px) { .progress .lbl { display: none; } .progress li.current .lbl { display: block; } }
+
+main { padding-block: clamp(24px, 5vw, 56px) 110px; }
+.stage { animation: rise .55s cubic-bezier(.2,.7,.2,1) both; }
+.stage.back { animation-name: fall; }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes fall { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+.eyebrow { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--red); margin: 0 0 14px; }
+h1, h2 { margin: 0 0 20px; font-weight: 900; line-height: 1.02; letter-spacing: -.025em; text-wrap: balance; font-stretch: 100%; }
+h1 { font-size: clamp(42px, 9vw, 92px); max-width: 13ch; }
+h2 { font-size: clamp(32px, 5.4vw, 54px); max-width: 17ch; }
+.lead { font-size: clamp(18px, 2.1vw, 21px); color: var(--muted); max-width: 38em; margin: 0 0 30px; }
+.hint { color: var(--muted); font-size: 15px; margin: 0; max-width: 42em; }
+.welcome { padding-top: clamp(24px, 9vh, 96px); }
+
+.btn { font: inherit; font-weight: 700; cursor: pointer; border-radius: 999px; padding: 13px 30px; min-height: 48px; border: 2px solid transparent; transition: background .2s, color .2s, transform .15s; }
+.btn:active { transform: scale(.98); }
+.btn-primary { background: var(--red); color: var(--on-red); }
+.btn-primary:hover:not([disabled]) { background: var(--red-hover); }
+.btn-primary[disabled] { opacity: .6; cursor: progress; }
+.btn-ghost { background: transparent; color: var(--fg); border-color: var(--fg); }
+.btn-ghost:hover { background: var(--ink-btn); color: var(--on-ink); }
+.btn-link { background: none; border: 0; color: var(--fg); font: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; padding: 8px 4px; }
+.actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 40px; }
+
+.fields { display: grid; gap: 28px; max-width: 640px; }
+.field > label, .field > legend { display: block; font-weight: 700; margin-bottom: 8px; padding: 0; }
+.opt { font-weight: 400; color: var(--muted); font-size: 14px; margin-left: 8px; }
+.field input[type=text], .field input[type=email], .field textarea { width: 100%; font: inherit; color: var(--fg); background: var(--field);
+  border: 0; border-bottom: 2px solid var(--muted); border-radius: 8px 8px 0 0; padding: 14px; transition: border-color .2s; }
+.field textarea { min-height: 140px; resize: vertical; }
+.field input:hover, .field textarea:hover { border-bottom-color: var(--fg); }
+.field input:focus, .field textarea:focus { border-bottom-color: var(--fg); outline: 3px solid var(--focus); outline-offset: 0; }
+.field.invalid input, .field.invalid textarea { border-bottom-color: var(--err); background: var(--err-bg); }
+.err { display: flex; gap: 8px; color: var(--err); font-weight: 600; font-size: 15px; margin-top: 8px; }
+.err::before { content: "!"; flex: none; width: 20px; height: 20px; border-radius: 50%; background: var(--err); color: var(--bg); font-size: 13px; display: grid; place-items: center; }
+.count-note { font-size: 13px; color: var(--muted); text-align: right; margin-top: 4px; }
+
+.seg { display: inline-flex; border: 2px solid var(--fg); border-radius: 999px; overflow: hidden; }
+.seg label { position: relative; cursor: pointer; font-weight: 700; }
+.seg input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.seg span { display: block; padding: 10px 28px; min-width: 88px; text-align: center; transition: background .2s, color .2s; }
+.seg input:checked + span { background: var(--ink-btn); color: var(--on-ink); }
+.seg input:focus-visible + span { outline: 3px solid var(--focus); outline-offset: -5px; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.reveal { margin-top: 18px; animation: rise .4s both; }
+
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 8px; }
+@media (max-width: 860px) { .cards { grid-template-columns: 1fr; } }
+.card { position: relative; display: flex; }
+.card input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; z-index: 2; }
+.face { flex: 1; display: flex; flex-direction: column; gap: 14px; padding: 28px 24px; border: 2px solid var(--line); border-radius: 14px; background: var(--card); transition: border-color .2s, box-shadow .25s, transform .25s, background .2s; }
+.card:hover .face { border-color: var(--fg); transform: translateY(-3px); }
+.card input:focus-visible + .face { outline: 3px solid var(--focus); outline-offset: 3px; }
+.card input:checked + .face { border-color: var(--red); background: var(--selected-bg); box-shadow: 0 0 0 2px var(--red), 0 14px 30px rgba(235,16,0,.16); }
+.logo-ph { width: 72px; height: 72px; border-radius: 50%; border: 2px dashed var(--muted); display: grid; place-items: center; font-size: 11px; color: var(--muted); text-align: center; line-height: 1.15; }
+.logo-box img { max-height: 72px; max-width: 100%; object-fit: contain; }
+.card h3 { margin: 0; font-size: 21px; line-height: 1.2; }
+.card p { margin: 0; color: var(--muted); font-size: 16px; flex: 1; }
+.tick { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; }
+.tick i { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--muted); display: grid; place-items: center; font-style: normal; color: transparent; font-size: 14px; transition: all .2s; }
+.card input:checked + .face .tick i { background: var(--red); border-color: var(--red); color: #fff; }
+.card input:checked + .face .tick i::after { content: "✓"; }
+
+.review { max-width: 760px; border-top: 2px solid var(--fg); }
+.review section { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 20px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+.review h3 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.review dl { margin: 0; display: grid; gap: 10px; }
+.review dt { font-size: 14px; color: var(--muted); }
+.review dd { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.none { color: var(--muted); font-style: italic; }
+.confirm { display: flex; gap: 14px; align-items: flex-start; margin-top: 32px; max-width: 760px; padding: 20px; background: var(--field); border-radius: 14px; }
+.confirm input { width: 24px; height: 24px; margin: 2px 0 0; accent-color: var(--red); flex: none; }
+.confirm label { cursor: pointer; }
+.confirm.invalid { outline: 2px solid var(--err); }
+.panel { max-width: 640px; padding: 18px 22px; border-radius: 14px; border: 2px solid var(--err); background: var(--err-bg); margin-top: 24px; }
+.panel strong { display: block; margin-bottom: 4px; }
+.done-mark { width: 72px; height: 72px; border-radius: 50%; background: var(--red); color: #fff; display: grid; place-items: center; font-size: 34px; margin-bottom: 28px; animation: pop .6s both; }
+@keyframes pop { from { transform: scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
+.ref { font-size: 14px; color: var(--muted); margin-top: 26px; }
+
+/* Internal submissions view (#submissions) */
+.tablebox { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; margin-top: 20px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; max-width: 280px; overflow-wrap: anywhere; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); white-space: nowrap; }
+</style>
+
+<div class="thread" aria-hidden="true"></div>
+<div class="wrap">
+  <header>
+    <!-- BRAND PLACEHOLDER: replace with the approved Adobe wordmark (SVG) from Brand Center. Do not recreate the logo. -->
+    <a class="brand" href="#" id="brand" aria-label="Adobe (logo placeholder)"><span>Adobe</span></a>
+  </header>
+  <nav id="progress" class="progress" aria-label="Progress" hidden></nav>
+  <main id="app" tabindex="-1"><noscript>This experience needs JavaScript.</noscript></main>
+</div>
+<div id="live" class="sr" role="status" aria-live="polite"></div>
+
+<script>
+/* ===== CONFIG: replace the three placeholders with the approved charities ===== */
+var CHARITIES = [
+  { id: "charity-1", name: "[Charity partner 1 — placeholder]", description: "[Placeholder] Short, approved description of this charity's mission goes here.", logo: "", logoAlt: "" },
+  { id: "charity-2", name: "[Charity partner 2 — placeholder]", description: "[Placeholder] Short, approved description of this charity's mission goes here.", logo: "", logoAlt: "" },
+  { id: "charity-3", name: "[Charity partner 3 — placeholder]", description: "[Placeholder] Short, approved description of this charity's mission goes here.", logo: "", logoAlt: "" }
+];
+var STEPS = [{ label: "About you" }, { label: "Your year" }, { label: "Your cause" }, { label: "Personal touch" }, { label: "Review" }];
+var LIMITS = { fullName: 120, organisation: 160, email: 254, adobeContact: 120, proud: 1000, opportunity: 1000, message: 500 };
+var COLLECTION = "submissions";
+
+/* ===== helpers ===== */
+function el(tag, attrs) {
+  var n = document.createElement(tag); attrs = attrs || {};
+  Object.keys(attrs).forEach(function (k) { var v = attrs[k];
+    if (v === false || v == null) return;
+    if (k === "class") n.className = v;
+    else if (k.slice(0, 2) === "on" && typeof v === "function") n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v === true ? "" : v); });
+  Array.prototype.slice.call(arguments, 2).flat(9).forEach(function (c) {
+    if (c == null || c === false) return; n.append(c.nodeType ? c : document.createTextNode(String(c))); });
+  return n;
+}
+var uid = 0, nid = function (p) { return p + "-" + (++uid); };
+var clean = function (v) { return String(v == null ? "" : v).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim(); };
+var EMAIL = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
+
+function validate(step, d) {
+  var e = {}, all = step === "all";
+  function max(k) { if (clean(d[k]).length > LIMITS[k]) e[k] = "Please keep this under " + LIMITS[k] + " characters."; }
+  if (step === 1 || all) {
+    if (!clean(d.fullName)) e.fullName = "Please enter your full name.";
+    if (!clean(d.organisation)) e.organisation = "Please enter your organisation or company.";
+    var em = clean(d.email);
+    if (!em) e.email = "Please enter your business email address.";
+    else if (em.length > LIMITS.email || !EMAIL.test(em)) e.email = "That doesn’t look like a valid email address. Try name@company.com.";
+    ["fullName", "organisation", "adobeContact"].forEach(function (k) { if (!e[k]) max(k); });
+  }
+  if (step === 2 || all) { max("proud"); max("opportunity"); }
+  if (step === 3 || all) { if (!CHARITIES.some(function (c) { return c.id === d.charity; })) e.charity = "Please choose one charity to continue."; }
+  if (step === 4 || all) { if (d.wantsMessage === "yes") max("message"); }
+  if (step === 5 || all) { if (d.confirmed !== true) e.confirmed = "Please tick the box to confirm before submitting."; }
+  return e;
+}
+
+/* ===== components ===== */
+function Welcome(o) {
+  return el("section", { class: "stage welcome", "aria-labelledby": "h-w" },
+    el("p", { class: "eyebrow" }, "End-of-year partner giving"),
+    el("h1", { id: "h-w", tabindex: "-1" }, "A little gratitude. A lasting impact."),
+    el("p", { class: "lead" }, "As we reflect on another year of partnership, we’d like to thank you for being part of our journey. This year, we’re celebrating our partnerships by giving back. Choose one of our selected charity partners and help us make a meaningful difference together."),
+    el("div", { class: "actions" }, el("button", { type: "button", class: "btn btn-primary", onclick: o.onStart }, "Let’s make an impact")));
+}
+function Progress(host, o) {
+  host.replaceChildren();
+  if (o.current < 0) { host.hidden = true; return; }
+  host.hidden = false;
+  var ol = el("ol");
+  STEPS.forEach(function (s, i) {
+    var st = i < o.current ? "done" : i === o.current ? "current" : "";
+    var lbl = i < o.current ? el("button", { type: "button", class: "lbl", onclick: function () { o.onJump(i); } }, s.label) : el("span", { class: "lbl" }, s.label);
+    ol.append(el("li", { class: st, "aria-current": i === o.current ? "step" : false }, el("div", { class: "bar", "aria-hidden": "true" }), lbl));
+  });
+  host.append(el("p", { class: "count" }, "Step " + (o.current + 1) + " of " + STEPS.length), ol);
+}
+function describe(input, help, err) { var ids = [help && help.id, err && err.id].filter(Boolean); if (ids.length) input.setAttribute("aria-describedby", ids.join(" ")); }
+function TextField(o) {
+  var id = nid(o.name);
+  var input = el("input", { id: id, name: o.name, type: o.type || "text", value: o.value || "", autocomplete: o.autocomplete, maxlength: o.maxlength,
+    "aria-required": o.required ? "true" : false, "aria-invalid": o.error ? "true" : false, inputmode: o.type === "email" ? "email" : false, spellcheck: o.type === "email" ? "false" : false });
+  var er = o.error ? el("div", { class: "err", id: id + "-e" }, o.error) : null; describe(input, null, er);
+  input.addEventListener("input", function () { o.onInput(input.value); });
+  return el("div", { class: "field" + (o.error ? " invalid" : "") },
+    el("label", { for: id }, o.label, o.optional ? el("span", { class: "opt" }, "(optional)") : o.required ? el("span", { class: "sr" }, " (required)") : null), input, er);
+}
+function TextArea(o) {
+  var id = nid(o.name);
+  var ta = el("textarea", { id: id, name: o.name, maxlength: o.maxlength, "aria-invalid": o.error ? "true" : false }, o.value || "");
+  var note = el("div", { class: "count-note", "aria-hidden": "true" }, (o.value || "").length + " / " + o.maxlength);
+  var er = o.error ? el("div", { class: "err", id: id + "-e" }, o.error) : null; describe(ta, null, er);
+  ta.addEventListener("input", function () { o.onInput(ta.value); note.textContent = ta.value.length + " / " + o.maxlength; });
+  return el("div", { class: "field" + (o.error ? " invalid" : "") },
+    el("label", { for: id }, o.label, o.optional === false ? null : el("span", { class: "opt" }, "(optional)")), ta, note, er);
+}
+function YesNo(o) {
+  var g = el("div", { class: "seg" });
+  [["yes", "Yes"], ["no", "No"]].forEach(function (p) {
+    var i = el("input", { type: "radio", name: o.name, value: p[0], checked: o.value === p[0] });
+    i.addEventListener("change", function () { o.onChange(p[0]); });
+    g.append(el("label", {}, i, el("span", {}, p[1])));
+  });
+  return el("fieldset", { class: "field" }, el("legend", {}, o.legend, el("span", { class: "opt" }, "(optional)")), g);
+}
+function CharityCards(o) {
+  var eid = nid("ce"), wrap = el("fieldset", { "aria-describedby": o.error ? eid : false }, el("legend", { class: "sr" }, "Choose one charity"));
+  var grid = el("div", { class: "cards" });
+  o.charities.forEach(function (c) {
+    var i = el("input", { type: "radio", name: "charity", value: c.id, checked: o.selected === c.id, "aria-required": "true" });
+    i.addEventListener("change", function () { o.onSelect(c.id); });
+    var logo = c.logo ? el("img", { src: c.logo, alt: c.logoAlt || "" }) : el("div", { class: "logo-ph", "aria-hidden": "true" }, "Logo placeholder");
+    grid.append(el("label", { class: "card" }, i, el("div", { class: "face" }, el("div", { class: "logo-box" }, logo), el("h3", {}, c.name), el("p", {}, c.description),
+      el("div", { class: "tick" }, el("i", { "aria-hidden": "true" }), el("span", {}, "Select this cause")))));
+  });
+  wrap.append(grid);
+  if (o.error) wrap.append(el("div", { class: "err", id: eid, role: "alert" }, o.error));
+  return wrap;
+}
+function Review(o) {
+  var d = o.data;
+  function v(x) { return x && x.trim() ? x : el("span", { class: "none" }, "Not provided"); }
+  function row(t, x) { return [el("dt", {}, t), el("dd", {}, x)]; }
+  function block(title, step, rows) { return el("section", {}, el("div", {}, el("h3", {}, title), el("dl", {}, rows)),
+    el("button", { type: "button", class: "btn-link", onclick: function () { o.onEdit(step); } }, "Edit", el("span", { class: "sr" }, " " + title))); }
+  var ch = CHARITIES.filter(function (c) { return c.id === d.charity; })[0];
+  return el("div", { class: "review" },
+    block("About you", 0, [].concat(row("Name", d.fullName), row("Organisation", d.organisation), row("Email", d.email), row("Adobe contact", v(d.adobeContact)))),
+    block("Your year", 1, [].concat(row("Something we’re proud of", v(d.proud)), row("An opportunity for next year", v(d.opportunity)))),
+    block("Your chosen cause", 2, row("Charity", ch ? ch.name : v(""))),
+    block("Personal touch", 3, [].concat(
+      row("Message", d.wantsMessage === "yes" ? v(d.message) : el("span", { class: "none" }, "No message")),
+      row("Impact update", d.wantsUpdate === "yes" ? "Yes, please send me an update" : d.wantsUpdate === "no" ? "No update needed" : el("span", { class: "none" }, "No preference given")))));
+}
+function ConfirmBox(o) {
+  var id = nid("cf"), i = el("input", { type: "checkbox", id: id, checked: o.checked, "aria-required": "true", "aria-invalid": o.error ? "true" : false, "aria-describedby": o.error ? id + "-e" : false });
+  var box = el("div", { class: "confirm" + (o.error ? " invalid" : "") }, i, el("label", { for: id }, "I confirm that the information provided is accurate and understand that my charity selection will be submitted to Adobe for processing."));
+  var wrap = el("div", {}, box, o.error ? el("div", { class: "err", id: id + "-e", role: "alert" }, o.error) : null);
+  i.addEventListener("change", function () { o.onChange(i.checked); if (i.checked) { box.classList.remove("invalid"); var x = wrap.querySelector(".err"); if (x) x.remove(); } });
+  return wrap;
+}
+function Panel(t, m) { return el("div", { class: "panel", role: "alert" }, el("strong", {}, t), m); }
+function Done(o) {
+  var ch = CHARITIES.filter(function (c) { return c.id === o.charity; })[0];
+  return el("section", { class: "stage", "aria-labelledby": "h-d" },
+    el("div", { class: "done-mark", "aria-hidden": "true" }, "✓"),
+    el("h2", { id: "h-d", tabindex: "-1" }, "Thank you for making an impact."),
+    el("p", { class: "lead" }, "Your selection has been received. Thank you for helping us make our end-of-year giving initiative more meaningful."),
+    el("p", { class: "lead" }, (o.name ? o.name + ", we" : "We") + "’ve recorded your choice" + (ch ? " of " + ch.name : "") + ". Your donation will be processed separately by Adobe; this page does not confirm that a donation has been made."),
+    o.ref ? el("p", { class: "ref" }, "Reference: ", el("code", {}, o.ref)) : null);
+}
+
+/* ===== state ===== */
+var app = document.getElementById("app"), progressHost = document.getElementById("progress"), live = document.getElementById("live");
+var S = { view: "welcome", max: 0, errors: {}, dir: "fwd", submitting: false, submitError: null, ref: null,
+  d: { fullName: "", organisation: "", email: "", adobeContact: "", proud: "", opportunity: "", charity: "", wantsMessage: "", message: "", wantsUpdate: "", confirmed: false } };
+var set = function (k) { return function (v) { S.d[k] = v; }; };
+var D = function () { return S.d; }, E = function () { return S.errors; };
+
+function go(v, dir) { S.view = v; S.dir = dir || "fwd"; S.errors = {}; S.submitError = null; if (typeof v === "number") S.max = Math.max(S.max, v); render(); window.scrollTo(0, 0); }
+function next() { S.errors = validate(S.view + 1, S.d); if (Object.keys(S.errors).length) return render(true); go(S.view + 1); }
+function back() { go(S.view === 0 ? "welcome" : S.view - 1, "back"); }
+
+function stage(i, title, intro, body, last) {
+  return el("form", { novalidate: true, class: "stage" + (S.dir === "back" ? " back" : ""), "aria-labelledby": "h-s", onsubmit: function (ev) { ev.preventDefault(); last ? submit() : next(); } },
+    el("p", { class: "eyebrow" }, STEPS[i].label), el("h2", { id: "h-s", tabindex: "-1" }, title), intro ? el("p", { class: "lead" }, intro) : null, body,
+    el("div", { class: "actions" }, el("button", { type: "button", class: "btn btn-ghost", onclick: back }, "Back"),
+      last ? el("button", { type: "submit", class: "btn btn-primary", disabled: S.submitting }, S.submitting ? "Submitting…" : "Submit my selection")
+           : el("button", { type: "submit", class: "btn btn-primary" }, "Continue")));
+}
+function vAbout() {
+  return stage(0, "Tell us who you are.", "Just the basics, so we can credit the donation to the right partner.", el("div", { class: "fields" },
+    TextField({ name: "fullName", label: "Full name", required: true, autocomplete: "name", maxlength: LIMITS.fullName, value: D().fullName, error: E().fullName, onInput: set("fullName") }),
+    TextField({ name: "organisation", label: "Organisation / company", required: true, autocomplete: "organization", maxlength: LIMITS.organisation, value: D().organisation, error: E().organisation, onInput: set("organisation") }),
+    TextField({ name: "email", type: "email", label: "Business email address", required: true, autocomplete: "email", maxlength: LIMITS.email, value: D().email, error: E().email, onInput: set("email") }),
+    TextField({ name: "adobeContact", label: "Adobe account manager or primary contact", optional: true, maxlength: LIMITS.adobeContact, value: D().adobeContact, error: E().adobeContact, onInput: set("adobeContact") })));
+}
+function vReflect() {
+  return stage(1, "Every partnership has a story.", "We’d love to hear a little about yours.", el("div", { class: "fields" },
+    el("p", { class: "hint" }, "Both questions are optional. Your answers help us understand our partners’ experiences and future priorities."),
+    TextArea({ name: "proud", label: "What’s one thing we’ve achieved together this year that you’re proud of?", maxlength: LIMITS.proud, value: D().proud, error: E().proud, onInput: set("proud") }),
+    TextArea({ name: "opportunity", label: "What is one opportunity you’d love to explore together in the year ahead?", maxlength: LIMITS.opportunity, value: D().opportunity, error: E().opportunity, onInput: set("opportunity") })));
+}
+function vCause() {
+  return stage(2, "Which cause would you like to support?", "As a thank-you for being part of our year, Adobe will make a donation on your behalf to one of our three selected charity partners.",
+    CharityCards({ charities: CHARITIES, selected: D().charity, error: E().charity, onSelect: function (id) { D().charity = id; S.errors = {}; var x = app.querySelector(".err"); if (x) x.remove(); } }));
+}
+function vPersonal() {
+  var box = el("div", { class: "reveal", hidden: D().wantsMessage !== "yes" },
+    TextArea({ name: "message", label: "Write your message here.", optional: false, maxlength: LIMITS.message, value: D().message, error: E().message, onInput: set("message") }));
+  var q1 = YesNo({ name: "wantsMessage", legend: "Would you like to include a message alongside your charity selection?", value: D().wantsMessage,
+    onChange: function (v) { D().wantsMessage = v; box.hidden = v !== "yes"; if (v === "yes") box.querySelector("textarea").focus(); } });
+  q1.append(box);
+  return stage(3, "Make it personal.", null, el("div", { class: "fields" }, q1,
+    YesNo({ name: "wantsUpdate", legend: "Would you like to receive an update about the impact of this initiative?", value: D().wantsUpdate, onChange: set("wantsUpdate") })));
+}
+function vReview() {
+  var body = el("div", {}, Review({ data: D(), onEdit: function (s) { go(s, "back"); } }), ConfirmBox({ checked: D().confirmed, error: E().confirmed, onChange: function (c) { D().confirmed = c; if (c) S.errors = {}; } }));
+  if (S.submitError) body.append(Panel(S.submitError.t, S.submitError.m));
+  return stage(4, "Almost there" + (D().fullName ? ", " + clean(D().fullName).split(" ")[0] : "") + ".", "Check everything looks right, then submit.", body, true);
+}
+
+/* ===== persistence (db capability; success only after the write resolves) ===== */
+var dbP = null, userP = null;
+function caps() {
+  if (!window.claude || !window.claude.use) return Promise.resolve({ db: null, user: null });
+  return Promise.all([window.claude.use("db").catch(function () { return null; }), window.claude.use("user").catch(function () { return null; })])
+    .then(function (r) { return { db: r[0], user: r[1] }; });
+}
+function submit() {
+  if (S.submitting) return;
+  S.errors = validate("all", S.d);
+  var bad = Object.keys(S.errors)[0];
+  if (bad) { var s = ["fullName", "organisation", "email"].indexOf(bad) > -1 ? 0 : bad === "charity" ? 2 : ["proud", "opportunity"].indexOf(bad) > -1 ? 1 : bad === "message" ? 3 : 4; return s === 4 ? render(true) : go(s, "back"); }
+  S.submitting = true; S.submitError = null; render();
+  var d = S.d;
+  var rec = { fullName: clean(d.fullName), organisation: clean(d.organisation), email: clean(d.email), adobeContact: clean(d.adobeContact), proud: clean(d.proud), opportunity: clean(d.opportunity),
+    charity: d.charity, charityName: (CHARITIES.filter(function (c) { return c.id === d.charity; })[0] || {}).name || "", wantsMessage: d.wantsMessage || "",
+    message: d.wantsMessage === "yes" ? clean(d.message) : "", wantsUpdate: d.wantsUpdate || "", confirmed: true, submittedAt: new Date().toISOString(), status: "received" };
+  caps().then(function (c) {
+    if (!c.db || !c.user) throw { kind: "unavailable" };
+    return Promise.resolve(c.user.id()).then(function (id) {
+      rec.ref = "ADB-" + String(id).replace(/[^A-Za-z0-9]/g, "").slice(0, 8).toUpperCase();
+      return c.db.collection(COLLECTION).doc(String(id)).set(rec);      // one record per person: resubmitting replaces, never duplicates
+    }).then(function () { S.submitting = false; S.ref = rec.ref; try { localStorage.setItem("pg-submitted", rec.ref); } catch (e) {} go("done"); });
+  }).catch(function (err) {
+    S.submitting = false;
+    S.submitError = err && err.kind === "unavailable"
+      ? { t: "We can’t save your selection from here", m: "Nothing has been submitted. Please open this page signed in, using the link Adobe sent you, and try again." }
+      : { t: "We couldn’t save your selection", m: "Nothing has been submitted. Your answers are still here, so please try again in a moment." };
+    render(false, true);
+  });
+}
+
+/* ===== internal submissions view (#submissions; admins only) ===== */
+var FIELDS = ["ref", "submittedAt", "fullName", "organisation", "email", "adobeContact", "proud", "opportunity", "charityName", "wantsMessage", "message", "wantsUpdate", "status"];
+function csvCell(v) { var s = String(v == null ? "" : v); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; }
+function toCsv(rows) { return [FIELDS.join(",")].concat(rows.map(function (r) { return FIELDS.map(function (f) { return csvCell(r[f]); }).join(","); })).join("\r\n"); }
+function Admin() {
+  var holder = el("div", { class: "tablebox" }, el("p", { class: "none", style: "padding:14px" }, "Loading…")), exportBtn = el("button", { type: "button", class: "btn btn-primary", disabled: true }, "Download CSV");
+  var rows = [];
+  function paint() {
+    holder.replaceChildren();
+    if (!rows.length) { holder.append(el("p", { class: "none", style: "padding:14px" }, "No submissions yet.")); return; }
+    holder.append(el("table", {}, el("thead", {}, el("tr", {}, FIELDS.map(function (f) { return el("th", {}, f); }))),
+      el("tbody", {}, rows.map(function (r) { return el("tr", {}, FIELDS.map(function (f) { return el("td", {}, r[f] == null ? "" : String(r[f])); })); }))));
+    exportBtn.disabled = false;
+  }
+  exportBtn.addEventListener("click", function () {
+    window.claude.use("downloads").then(function (dl) { if (dl) return dl.save({ filename: "partner-giving-submissions.csv", data: toCsv(rows) }); }).catch(function () {});
+  });
+  caps().then(function (c) {
+    var allowed = c.user && c.user.canEdit && c.user.canEdit();
+    if (!c.db || !allowed) { holder.replaceChildren(el("p", { class: "none", style: "padding:14px" }, "This view is for authorised Adobe staff only.")); return; }
+    c.db.collection(COLLECTION).onSnapshot(function (snap) {
+      var docs = snap && snap.docs ? snap.docs : Array.isArray(snap) ? snap : [];
+      rows = Array.prototype.map.call(docs, function (x) { return typeof x.data === "function" ? x.data() : x; })
+        .sort(function (a, b) { return String(b.submittedAt).localeCompare(String(a.submittedAt)); });
+      paint();
+    });
+  });
+  return el("section", { class: "stage" }, el("p", { class: "eyebrow" }, "Internal"), el("h2", {}, "Submissions"),
+    el("p", { class: "lead" }, "Visible only to authorised editors. Contains personal information: export only for processing and delete when no longer needed."), exportBtn, holder);
+}
+
+/* ===== render ===== */
+function render(focusErr, focusPanel) {
+  var v = S.view;
+  document.body.className = v === "welcome" || v === "done" ? "stage-dark" : "";
+  Progress(progressHost, { current: typeof v === "number" ? v : -1, onJump: function (i) { go(i, "back"); } });
+  var node = v === "welcome" ? Welcome({ onStart: function () { go(0); } })
+    : v === "done" ? Done({ name: clean(D().fullName).split(" ")[0], charity: D().charity, ref: S.ref })
+    : v === "admin" ? Admin()
+    : [vAbout, vReflect, vCause, vPersonal, vReview][v]();
+  app.replaceChildren(node);
+  if (focusErr) { var b = app.querySelector('[aria-invalid="true"], .card input, .confirm.invalid input'); (b || app.querySelector("h2")).focus(); live.textContent = "Please fix the highlighted fields."; }
+  else if (focusPanel) { var p = app.querySelector(".panel"); if (p) p.scrollIntoView({ block: "center" }); }
+  else { var h = app.querySelector("h1, h2"); if (h) h.focus({ preventScroll: true }); live.textContent = typeof v === "number" ? "Step " + (v + 1) + " of " + STEPS.length + ": " + STEPS[v].label : ""; }
+}
+S.view = location.hash === "#submissions" ? "admin" : "welcome";
+render();
+</script>
+
+</body></html>
